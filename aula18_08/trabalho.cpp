@@ -34,7 +34,7 @@ int main(){
 		
 	}
 	
-	
+	fclose(pFile);
 	
 	// C
 	
@@ -42,12 +42,14 @@ int main(){
 	gets(compNome);
 	
 	while(fscanf(pFile, "%s", nome) != NULL){
+		nome[strlen(nome)-1] = '\0';
 			if(strcmp(nome, compNome) == 0){
-				printf("Nome encontrado %s", compNome);
-				
+				printf("Nome encontrado %s", nome);
+				break;
 			}
 			else{
 				printf("Nome não existe!");
+				break;
 			}
 		}
 		
