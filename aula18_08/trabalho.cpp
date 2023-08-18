@@ -1,9 +1,11 @@
 #include <stdio.h>
+#include <string.h>
 
 int main(){
 	
 	FILE *pFile;
 	char nome[50];
+	char compNome[50];
 	int i,j;
 	
 	// a. ler um arquivo de nomes de pessoas;
@@ -32,7 +34,25 @@ int main(){
 		
 	}
 	
-	fclose(pFile);
 	
 	
+	// C
+	
+	printf("Digite o nome que deseja verificar: ");
+	gets(compNome);
+	
+	while(fscanf(pFile, "%s", nome) != NULL){
+			if(strcmp(nome, compNome) == 0){
+				printf("Nome encontrado %s", compNome);
+				
+			}
+			else{
+				printf("Nome não existe!");
+			}
+		}
+		
+		fclose(pFile);
+		
+		
+		
 }
