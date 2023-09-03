@@ -15,11 +15,13 @@ struct Produto{
 
 FILE *pFile = NULL;
 // define o nó inicial da lista
-struct Produto *inicio=NULL;
+	struct Produto *inicio;
 
 // 1-Listar todos os produtos.
 void listar_todos_produtos(){
 	
+	// define o nó inicial da lista
+	struct Produto *inicio=NULL;
 	struct Produto *novo = (struct Produto*)malloc(sizeof(struct Produto));
 	
 	int codigo;
@@ -60,6 +62,8 @@ void listar_todos_produtos(){
 
 //2 – Buscar produto de acordo com categoria.
 void listar_produtos_categoria(char categorias[100]){
+	// define o nó inicial da lista
+	struct Produto *inicio=NULL;
 	struct Produto *novo = (struct Produto*)malloc(sizeof(struct Produto));
 	int codigo;
 	pFile = fopen("estoque.txt", "r");
@@ -95,9 +99,62 @@ void listar_produtos_categoria(char categorias[100]){
 	}
 }
 
+//3 – Adicionar produtos em carrinho de compra.
+void addCarrinho(int codigoC, int quantidadeC){
+
+	struct Produto *novo = (struct Produto*)malloc(sizeof(struct Produto));
+	int codigo;
+	pFile = fopen("estoque.txt", "r+");
+	
+	if(pFile!=NULL){
+		// ler o arquivo e mostra-lo
+		while(fscanf(pFile, "%d ", &codigo) != EOF){
+			novo->codigo=codigo;
+				
+			fscanf(pFile, "%s ", novo->descricao);
+			fscanf(pFile, "%s ", novo->categoria);
+			fscanf(pFile, "%d ", &novo->quantidadeEstoque);
+			fscanf(pFile, "%f ", &novo->precoUnitario);
+		
+			novo->proximo = NULL; // Defina o próximo do novo nó como NULL, pois ele será o último da lista
+
+	        if (inicio == NULL) {
+	            inicio = novo;
+	        } 
+			else {
+	            // Encontre o último nó na lista e defina o próximo para o novo nó
+	            struct Produto *ultimo = inicio;
+	            while (ultimo->proximo != NULL) {
+	                ultimo = ultimo->proximo;
+	            }
+	            ultimo->proximo = novo;
+	        }
+		
+			printf("\n");
+			printf("%d", inicio->codigo);	
+			printf(" %s", inicio->descricao);
+			printf(" %s", inicio->categoria);
+			printf(" %d ", inicio->quantidadeEstoque);
+			printf(" %f ", inicio->precoUnitario);
+		}
+		
+		struct Produto *aux=inicio;
+		
+		while(aux != NULL){
+			printf("\n%d", aux->codigo);
+			aux=aux->proximo;
+		}
+		
+	}
+	else{
+		printf("Erro ao abrir o arquivo de estoque->\n");
+	}
+	
+}
 
 int main(){
 	
 	//listar_todos_produtos();
-	listar_produtos_categoria("alimenticio");
+	//listar_produtos_categoria("alimenticio");
+	addCarrinho(1,5);
 }

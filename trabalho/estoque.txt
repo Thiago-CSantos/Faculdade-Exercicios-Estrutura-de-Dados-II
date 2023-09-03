@@ -1,4 +1,4 @@
-1 limpeza higiene 0 10.60
+1 limpeza higiene 22 10.60
 2 comer alimenticio 9 6.60
 3 eletrizante eletronico 0 200.12
 4 comer alimenticio 9 6.60
