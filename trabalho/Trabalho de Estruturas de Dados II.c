@@ -13,9 +13,12 @@ struct Produto{
 	struct Produto *proximo;
 };
 
+struct Carrinho{
+	struct Produto *produtos;
+	int quantidade;
+};
+
 FILE *pFile = NULL;
-// define o nó inicial da lista
-	struct Produto *inicio;
 
 // 1-Listar todos os produtos.
 void listar_todos_produtos(){
@@ -51,7 +54,6 @@ void listar_todos_produtos(){
 			}	
 		}	
 		fclose(pFile);
-
 	}
 	else{
 		printf("Erro ao abrir o arquivo de estoque->\n");
@@ -101,53 +103,73 @@ void listar_produtos_categoria(char categorias[100]){
 
 //3 – Adicionar produtos em carrinho de compra.
 void addCarrinho(int codigoC, int quantidadeC){
+    
+    struct Produto *inicio=NULL;  
+    int codigo;
+    
+    pFile = fopen("estoque.txt", "r+");
+    
+    if(pFile!=NULL){
+        struct Produto *novo = (struct Produto*)malloc(sizeof(struct Produto));
+        struct Carrinho carrinhoCompra;
+        // ler o arquivo e mostra-lo
+        while(fscanf(pFile, "%d ", &codigo) != EOF){
+            
+            novo->codigo=codigo;
+                
+            fscanf(pFile, "%s ", novo->descricao);
+            fscanf(pFile, "%s ", novo->categoria);
+            fscanf(pFile, "%d ", &novo->quantidadeEstoque);
+            fscanf(pFile, "%f ", &novo->precoUnitario);
+            
+            novo->proximo = inicio;
+            inicio = novo;
 
-	struct Produto *novo = (struct Produto*)malloc(sizeof(struct Produto));
-	int codigo;
-	pFile = fopen("estoque.txt", "r+");
+            if (inicio->codigo == codigoC){
+                printf("\n");
+                printf("%d", inicio->codigo);
+                printf(" %s", inicio->descricao);
+                printf(" %s", inicio->categoria);
+                printf(" %d ", inicio->quantidadeEstoque);
+                printf(" %f ", inicio->precoUnitario);
+                
+                if(quantidadeC <= inicio->quantidadeEstoque){
+                    // inicio->quantidadeEstoque = inicio->quantidadeEstoque - quantidadeC;
+                    printf("q%d ", inicio->quantidadeEstoque);
+
+                    carrinhoCompra.quantidade = carrinhoCompra.quantidade + quantidadeC;
+                    printf("aqui - %d", carrinhoCompra.quantidade);
+
+                    if(carrinhoCompra.quantidade > inicio->quantidadeEstoque){
+                        printf("Quantidade indisponivel");
+                    }
+
+                    carrinhoCompra.produtos = inicio;
+
+                    printf("\n%d", carrinhoCompra.produtos->quantidadeEstoque);
+
+
+                } 
+                else{
+                    printf("Quantidade indisponivel");
+                }
+                
+            }
+          
+        }
+
+        fclose(pFile);
+    }
+}
+
+
+//4 – Visualizar carrinho de compra.
+void visualizar_carrinho(){
 	
-	if(pFile!=NULL){
-		// ler o arquivo e mostra-lo
-		while(fscanf(pFile, "%d ", &codigo) != EOF){
-			novo->codigo=codigo;
-				
-			fscanf(pFile, "%s ", novo->descricao);
-			fscanf(pFile, "%s ", novo->categoria);
-			fscanf(pFile, "%d ", &novo->quantidadeEstoque);
-			fscanf(pFile, "%f ", &novo->precoUnitario);
-		
-			novo->proximo = NULL; // Defina o próximo do novo nó como NULL, pois ele será o último da lista
-
-	        if (inicio == NULL) {
-	            inicio = novo;
-	        } 
-			else {
-	            // Encontre o último nó na lista e defina o próximo para o novo nó
-	            struct Produto *ultimo = inicio;
-	            while (ultimo->proximo != NULL) {
-	                ultimo = ultimo->proximo;
-	            }
-	            ultimo->proximo = novo;
-	        }
-		
-			printf("\n");
-			printf("%d", inicio->codigo);	
-			printf(" %s", inicio->descricao);
-			printf(" %s", inicio->categoria);
-			printf(" %d ", inicio->quantidadeEstoque);
-			printf(" %f ", inicio->precoUnitario);
-		}
-		
-		struct Produto *aux=inicio;
-		
-		while(aux != NULL){
-			printf("\n%d", aux->codigo);
-			aux=aux->proximo;
-		}
-		
-	}
-	else{
-		printf("Erro ao abrir o arquivo de estoque->\n");
+	struct Carrinho *carrinhoCompra;
+	int i=0;
+	for(i=0; i<5; i++){
+		printf("\n%d", carrinhoCompra[i].produtos->codigo); 
 	}
 	
 }
@@ -157,4 +179,6 @@ int main(){
 	//listar_todos_produtos();
 	//listar_produtos_categoria("alimenticio");
 	addCarrinho(1,5);
+	addCarrinho(1,5);
+	visualizar_carrinho();
 }

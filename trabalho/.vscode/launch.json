@@ -1,0 +1,24 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "cppdbg",
+      "request": "launch",
+      "args": [],
+      "stopAtEntry": false,
+      "externalConsole": true,
+      "cwd": "c:/Users/rafap/OneDrive/Área de Trabalho/trabalho/Faculdade-Exercicios-Estrutura-de-Dados-II/trabalho",
+      "program": "c:/Users/rafap/OneDrive/Área de Trabalho/trabalho/Faculdade-Exercicios-Estrutura-de-Dados-II/trabalho/build/Debug/outDebug",
+      "MIMode": "gdb",
+      "miDebuggerPath": "gdb",
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ]
+    }
+  ]
+}
