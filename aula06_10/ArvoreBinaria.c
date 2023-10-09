@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <conio.h>
 
-// ImplementaÁ„o dos algoritmos de percurso em profundidade
+// Implementa√ß√£o dos algoritmos de percurso em profundidade
 
 struct No{
 	int dado;
@@ -14,14 +14,14 @@ struct No* raiz = NULL;
 
 void preOrdem(struct No* raiz){
 	
-	//se houver elemento na ·rvore
+	//se houver elemento na √°rvore
 	if(raiz!= NULL){
 		//Passo-1 imprima os dados da raiz
 		printf("\n%d", raiz->dado);
 		getch();
-		//Passo-2 chame o processo prÈ-ordem para esquerda
+		//Passo-2 chame o processo pr√©-ordem para esquerda
 		preOrdem(raiz->esquerda);
-		//Passo-3 chame o processo prÈ-ordem para a direita
+		//Passo-3 chame o processo pr√©-ordem para a direita
 		preOrdem(raiz->direita);
 	}
 	
@@ -53,17 +53,17 @@ void posOrdem(struct No * raiz){
 	inserir um valor em uma Arvore Binaria Busca
 	input: valor a ser inserido
 	output: 1 -se foi possivel
-			0 se n„o foi
+			0 se n√£o foi
 **/
 
 int insere( struct No** raiz, int valor){
-	//vereficar se a raiz est· vazia
+	//vereficar se a raiz est√° vazia
 	if((*raiz)==NULL){
-		//ent„o o valor deve ficar nesta
+		//ent√£o o valor deve ficar nesta
 		//raiz
 		(*raiz) = malloc(sizeof(struct No));
 		
-		// ent„o o valor deve ficar nesta
+		// ent√£o o valor deve ficar nesta
 		//raiz
 		if((*raiz)!=NULL){
 			(*raiz)->dado = valor;
@@ -79,10 +79,10 @@ int insere( struct No** raiz, int valor){
 	}
 	else{
 		
-		if(valor>(*raiz)){
+		if(valor>(*raiz)->dado){
 			insere(&((*raiz)->direita), valor);
 		}
-		else if(valor<(*raiz)){
+		else if(valor<(*raiz)->dado){
 			insere(&((*raiz)->esquerda), valor);
 		}
 		else{
@@ -93,17 +93,17 @@ int insere( struct No** raiz, int valor){
 }
 
 /* EX-1
-	fazer uma funÁ„o para dado um valor retornar o nÛ
+	fazer uma fun√ß√£o para dado um valor retornar o n√≥
 	que o contem, se ele estiver na arvore
-	caso ele n„o esteja, retorne NULL
+	caso ele n√£o esteja, retorne NULL
 */
 struct No* ex1(struct No*raiz, int valor){
 		if(raiz!=NULL){
-			// vereficar se o valor est· na raiz
+			// vereficar se o valor est√° na raiz
 			if(raiz->dado == valor){
 				return raiz;
 			}
-			// verefica se o valor È maior ent„o vai para maio
+			// verefica se o valor √© maior ent√£o vai para maio
 			else{
 				if(valor<raiz->dado){
 					return ex1(raiz->esquerda,valor);
@@ -118,7 +118,7 @@ struct No* ex1(struct No*raiz, int valor){
 
 
 /* EX-2
-fazer a impress„o da arvore em ordem descendente
+fazer a impress√£o da arvore em ordem descendente
 */
 void ex2(struct No* raiz){
 	if(raiz!=NULL){
@@ -131,7 +131,7 @@ void ex2(struct No* raiz){
 
 int main(){
 	struct No *a;
-	//inserÁ„o de trez valores
+	//inser√ß√£o de trez valores
 	insere(&raiz, 7);
 	insere(&raiz, 5);
 	insere(&raiz, 12);
@@ -147,7 +147,7 @@ int main(){
 	
 	printf("\nex1:\n");
 	if(ex1(raiz, 5) == NULL){
-		printf("valor n„o encontrado");
+		printf("valor n√£o encontrado");
 	}
 	else{
 		printf("valor encontrado");
