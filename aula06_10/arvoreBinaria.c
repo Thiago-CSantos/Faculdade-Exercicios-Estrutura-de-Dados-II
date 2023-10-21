@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <conio.h>
 
-// Implementação dos algoritmos de percurso em profundidade
+// Implementacao dos algoritmos de percurso em profundidade
 
 struct No{
 	int dado;
@@ -12,37 +12,51 @@ struct No{
 
 struct No* raiz = NULL;
 
-
-// função de inserção
-
 struct No* antecessor(struct No* raiz){
 	
-	
 	if(raiz != NULL){
-		// vá para os antecessores
-		raiz=raiz->esquerda;
-		if(raiz->esquerda !=NULL){
-				//procurar o NO mais a direita
+		
+		if(raiz->esquerda != NULL){
+			// vai para os antecessores
+			raiz=raiz->esquerda;
+			
+			//procurar o NO mais a direita
 			while(raiz->direita!= NULL){
 				raiz=raiz->direita;			
 			}
 			return raiz;
 		}
+		return raiz;
 	}
 	return NULL;
 }
 
+struct No* sucessor(struct No* raiz){
+	if(raiz != NULL){
+	
+		if(raiz->direita !=NULL){
+			raiz=raiz->direita;
+			//procurar o NO mais a esquerda
+			while(raiz->esquerda!= NULL){
+				raiz=raiz->esquerda;			
+			}
+			return raiz;
+		}
+		return raiz;
+	}
+	return NULL;	
+} 
 
 void preOrdem(struct No* raiz){
 	
-	//se houver elemento na árvore
+	//se houver elemento na arvore
 	if(raiz!= NULL){
 		//Passo-1 imprima os dados da raiz
 		printf("\n%d", raiz->dado);
 		getch();
-		//Passo-2 chame o processo pré-ordem para esquerda
+		//Passo-2 chame o processo pre-ordem para esquerda
 		preOrdem(raiz->esquerda);
-		//Passo-3 chame o processo pré-ordem para a direita
+		//Passo-3 chame o processo pre-ordem para a direita
 		preOrdem(raiz->direita);
 	}
 	
@@ -74,17 +88,17 @@ void posOrdem(struct No * raiz){
 	inserir um valor em uma Arvore Binaria Busca
 	input: valor a ser inserido
 	output: 1 -se foi possivel
-			0 se não foi
+			0 se nï¿½o foi
 **/
 
 int insere( struct No** raiz, int valor){
-	//vereficar se a raiz está vazia
+	//vereficar se a raiz estao vazia
 	if((*raiz)==NULL){
 		//então o valor deve ficar nesta
 		//raiz
 		(*raiz) = malloc(sizeof(struct No));
 		
-		// então o valor deve ficar nesta
+		// entao o valor deve ficar nesta
 		//raiz
 		if((*raiz)!=NULL){
 			(*raiz)->dado = valor;
@@ -120,11 +134,12 @@ int insere( struct No** raiz, int valor){
 */
 struct No* buscar(struct No*raiz, int valor){
 		if(raiz!=NULL){
-			// vereficar se o valor está na raiz
+			// vereficar se o valor estao na raiz
 			if(raiz->dado == valor){
 				return raiz;
 			}
-			// verefica se o valor é maior então vai para maio
+			// verefica se o valor e maior
+			// entao vai para maior
 			else{
 				if(valor<raiz->dado){
 					return buscar(raiz->esquerda,valor);
@@ -139,37 +154,28 @@ struct No* buscar(struct No*raiz, int valor){
 
 
 /* EX-2
-fazer a impressão da arvore em ordem descendente
+fazer a impressao da arvore em ordem descendente
 */
-void ex2(struct No* raiz){
+void imprimir(struct No* raiz){
 	if(raiz!=NULL){
-		ex2(raiz->direita);
+		imprimir(raiz->direita);
 		printf("%d\n", raiz->dado);
-		ex2(raiz->esquerda);
+		imprimir(raiz->esquerda);
 		
 	}
 }
 
-//função que avalia se um Nó é folha
+//funcao que avalia se um No da folha
 int eh_folha(struct No*raiz){
 	
+	if(raiz != NULL && raiz->esquerda == NULL && raiz->direita == NULL){
+		return 1;
+	}
+	return 0;
+	
 }
 
-struct No* sucessor(struct No* raiz){
-	
-	if(raiz != NULL){
-		
-		raiz=raiz->direita;
-		if(raiz->esquerda !=NULL){
-				//procurar o NO mais a esquerda
-			while(raiz->esquerda!= NULL){
-				raiz=raiz->esquerda;			
-			}
-			return raiz;
-		}
-	}
-	return NULL;
-} 
+
 
 void deleta (int valor){
 	struct No*aux = buscar(raiz, valor);
@@ -183,7 +189,7 @@ void deleta (int valor){
 		return;
 	}
 	
-	//vereficar 
+	//vereficar se é folha
 	if((aux->esquerda != NULL) && (eh_folha(aux->esquerda) == 1) ){
 		aux->dado = aux->direita->dado;
 		free(aux->direita);
@@ -195,23 +201,24 @@ void deleta (int valor){
 	//procurar o antecessor
 	struct No* ant = antecessor(aux);
 	//copiar o valor do antecessor para a raiz
-	int valor = aux->dado;
+	int valor1 = aux->dado;
 	aux->dado = ant->dado;
-	ant->dado = valor;
-	
-	deleta(valor);
-	
+	ant->dado = valor1;
+
+	deleta(valor1);
 	
 }
 
 int main(){
 	struct No *a;
-	//inserção de trez valores
+	//insere os valores
 	insere(&raiz, 7);
+	insere(&raiz, 3);
 	insere(&raiz, 5);
 	insere(&raiz, 12);
 	insere(&raiz, 4);
 	insere(&raiz, 6);
+	
 	
 //	printf("\npreOrdem\n");
 //	preOrdem(raiz);
@@ -219,30 +226,39 @@ int main(){
 //	posOrdem(raiz);
 //	printf("\ninOrdem");
 //	inOrdem(raiz);
-//	
-//	printf("\nex1:\n");
-//	if(ex1(raiz, 5) == NULL){
-//		printf("valor não encontrado");
+	
+//	printf("\nbuscar:\n");
+//	struct No *aux = buscar(raiz, 6);
+//	if(aux == NULL){
+//		printf("valor nao encontrado\n");
 //	}
 //	else{
-//		printf("valor encontrado");
+//		printf("valor encontrado:%d\n", aux->dado);
 //	}
-//	
-//	printf("\nex2:\n");
-//	ex2(raiz);
+	
+//	printf("\nimprimir:\n");
+//	imprimir(raiz);
 
-	
-	
-//	a = antecessor(raiz);
+
+
+//	a = antecessor(buscar(raiz, 7));
 //	printf("\n antecessor=%d", a->dado);
 
-// Exercicio02 imprimir o Nó sucessor do 15.
-	a = sucessor(buscar(raiz, 15));
+// Exercicio02 imprimir o No sucessor do 15.
+//	a = sucessor(buscar(raiz, 3));
 	
-	if(a!=NULL){
-		printf("o Sucessor é: %d", a->dado);
-	}
-	else{
-		printf("não encotrou o sucessor");
-	}
+//	if(a!=NULL){
+//		printf("\no Sucessor e: %d", a->dado);
+//	}
+//	else{
+//		printf("\nnao encotrou o sucessor");
+//	}
+	
+	
+	deleta(6);
+	imprimir(raiz);
 }
+
+
+
+
